@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f2e9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>雅思口语陪练 · IELTS Speaking Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231e5b43'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%23fff' font-family='Georgia,serif'%3E%E9%9B%85%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="brand" data-go="home">
+      <span class="seal">雅</span>
+      <span class="brand-text">雅思口语<em>Studio</em></span>
+    </button>
+    <nav class="nav" aria-label="主导航">
+      <button data-go="home" data-nav>练习</button>
+      <button data-go="history" data-nav>历史</button>
+      <button data-settings>设置</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= 首页 ================= -->
+  <section class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">IELTS Speaking Practice</p>
+        <h1>一轮完整的口语练习，<br><span class="hl">从开口到复盘。</span></h1>
+        <p class="lede">Part 1 日常问答、Part 2 卡片陈述、Part 3 深入讨论走完一轮，结束后生成三份思路素材与两篇可以逐句朗读的范例。</p>
+        <div class="hero-actions">
+          <button class="btn btn-lg" data-scroll="modes">开始一轮练习</button>
+          <button class="btn btn-text" data-go="history">练习记录 →</button>
+        </div>
+
+        <dl class="stat-strip">
+          <div>
+            <dt>题库模式</dt>
+            <dd id="bankStat">加载中…</dd>
+          </div>
+          <div>
+            <dt>随机模式</dt>
+            <dd id="pastStat">加载中…</dd>
+          </div>
+          <div>
+            <dt>已练</dt>
+            <dd id="roundStat">—</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="float-card fc-1">
+          <span class="fc-tag">Part 2 · Cue card</span>
+          <p class="fc-title">Describe a person who is good at making people laugh</p>
+          <ul class="fc-list">
+            <li>Who this person is</li>
+            <li>How you know this person</li>
+            <li>Why he is good at it</li>
+          </ul>
+        </div>
+        <div class="float-card fc-2">
+          <span class="fc-tag">范例 · 朗读</span>
+          <p class="fc-sentence">He has this <mark>infectious</mark> laugh that makes the whole room relax.</p>
+          <span class="fc-play"><i>▶</i> 0:12 / 1:24</span>
+        </div>
+        <div class="float-card fc-3">
+          <span class="fc-tag">素材 01 · 思路</span>
+          <p>用一件具体的小事，讲清“幽默是一种照顾别人情绪的能力”。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modes" id="modes">
+      <div class="section-head">
+        <h2>选一种练法</h2>
+        <p>两个题库共用同一套流程，练完都会生成素材与范例。</p>
+      </div>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="bank">
+          <span class="mode-no">01</span>
+          <h3>按题库练</h3>
+          <p>2026 年 9–12 月雅思哥 + 新航道题库。题目按当季分组，可溯源、可继续追加。</p>
+          <span class="mode-meta" id="bankMeta">加载中…</span>
+          <span class="mode-arrow">→</span>
+        </button>
+        <button class="mode-card" data-mode="past">
+          <span class="mode-no">02</span>
+          <h3>按往届真题练</h3>
+          <p>2023–2025 年反复出现的真实考题，按人物 / 地点 / 物品 / 事件等类型筛选。</p>
+          <span class="mode-meta" id="pastMeta">加载中…</span>
+          <span class="mode-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <footer class="footnote">
+      纯本地网页 · 题目与历史只存在你的浏览器里 · 生成内容使用你自己的 DeepSeek Key
+    </footer>
+  </section>
+
+  <!-- ================= 配置 ================= -->
+  <section class="screen" id="screen-setup">
+    <div class="crumb">
+      <button class="btn btn-text" data-go="home">← 返回首页</button>
+    </div>
+    <div class="panel setup-panel">
+      <div class="setup-head">
+        <h2 id="setupTitle">开始练习</h2>
+        <p class="sub" id="setupSub"></p>
+      </div>
+
+      <div class="field" id="fieldSource" hidden>
+        <label>用哪个题库</label>
+        <div class="chips" id="sourceChips"></div>
+      </div>
+
+      <div class="field" id="fieldCats" hidden>
+        <label>题目类型 <span class="label-hint">可多选，不选就是全部</span></label>
+        <div class="chips" id="catChips"></div>
+      </div>
+
+      <div class="field">
+        <label>Part 1 抽题范围</label>
+        <div class="chips" id="p1ScopeChips"></div>
+      </div>
+
+      <div class="setup-foot">
+        <button class="btn btn-lg" id="btnStartPractice">开始练习</button>
+        <span class="hint" id="setupHint"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 练习 ================= -->
+  <section class="screen" id="screen-practice">
+    <div class="practice-top">
+      <div class="practice-head">
+        <p class="eyebrow" id="partEyebrow">Part 1</p>
+        <h2 id="partTitle">Part 1</h2>
+        <div class="topic" id="partTopic"></div>
+      </div>
+      <div class="stepbar" id="stepbar">
+        <div class="step on" data-step="1"><b>01</b><span>日常问答</span></div>
+        <div class="step" data-step="2"><b>02</b><span>卡片陈述</span></div>
+        <div class="step" data-step="3"><b>03</b><span>深入讨论</span></div>
+      </div>
+    </div>
+    <div id="stage"></div>
+  </section>
+
+  <!-- ================= 结果 ================= -->
+  <section class="screen" id="screen-result">
+    <div class="result-head">
+      <div>
+        <p class="eyebrow">Round Review</p>
+        <h2>这一轮的复盘</h2>
+      </div>
+      <div class="result-status" id="resultStatus"><span class="dot"></span><span class="txt">准备中…</span></div>
+    </div>
+
+    <details class="round-summary" id="roundSummary" open>
+      <summary>本轮题目 <span class="rs-hint">点击收起</span></summary>
+      <div class="rs-body" id="roundSummaryBody"></div>
+    </details>
+
+    <div id="resultCards"></div>
+
+    <div class="result-actions" id="resultActions" hidden>
+      <button class="btn" id="btnNextRound">再练一轮</button>
+      <button class="btn btn-ghost" id="btnRetryAI">重新生成</button>
+      <button class="btn btn-text" data-go="home">回首页</button>
+    </div>
+  </section>
+
+  <!-- ================= 历史 ================= -->
+  <section class="screen" id="screen-history">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">History</p>
+        <h2>最近练习</h2>
+        <p class="sub">最多保留 20 轮，只存在本机浏览器里。</p>
+      </div>
+      <button class="btn btn-text" id="btnClearHistory">清空</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </section>
+
+</main>
+
+<!-- ================= 移动端底部导航 ================= -->
+<nav class="tabbar" aria-label="底部导航">
+  <button data-go="home" data-tab><span class="tab-ico">◎</span>练习</button>
+  <button data-go="history" data-tab><span class="tab-ico">▤</span>历史</button>
+  <button data-settings data-tab><span class="tab-ico">⚙</span>设置</button>
+</nav>
+
+<!-- ================= 设置弹窗 ================= -->
+<div class="modal-mask" id="settingsMask">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-head">
+      <h2 id="settingsTitle">设置</h2>
+      <button class="modal-x" id="btnCloseSettings" aria-label="关闭">×</button>
+    </div>
+    <p class="modal-sub">API Key 只保存在这台设备的浏览器里（localStorage），不会写到文件、也不会发给第三方。</p>
+
+    <div class="field">
+      <label for="inpKey">DeepSeek API Key</label>
+      <input class="input" id="inpKey" type="password" placeholder="sk-..." autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="inpBase">接口地址 <span class="label-hint">留空自动选择</span></label>
+      <input class="input" id="inpBase" type="text" placeholder="https://api.deepseek.com">
+      <div class="hint" id="baseHint"></div>
+    </div>
+    <div class="field">
+      <label for="inpModel">模型</label>
+      <input class="input" id="inpModel" type="text" placeholder="deepseek-chat">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="selVoice">朗读音色</label>
+        <select class="input" id="selVoice"></select>
+      </div>
+      <div class="field">
+        <label for="selRate">朗读速度</label>
+        <select class="input" id="selRate">
+          <option value="0.75">0.75× 慢速跟读</option>
+          <option value="0.9">0.9×</option>
+          <option value="1" selected>1× 正常</option>
+          <option value="1.15">1.15×</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="btnSaveSettings">保存设置</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="question_bank.js"></script>
+<script src="past_questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
